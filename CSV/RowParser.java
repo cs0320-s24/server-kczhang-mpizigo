@@ -1,0 +1,14 @@
+package edu.brown.cs.student.main.Creator;
+
+import edu.brown.cs.student.main.FactoryFailureException;
+import java.util.List;
+
+public class RowParser implements CreatorFromRow<List<String>> {
+
+    public RowParser() {}
+
+    @Override
+    public List<String> create(List<String> row) throws FactoryFailureException {
+        return row;
+    }
+}
