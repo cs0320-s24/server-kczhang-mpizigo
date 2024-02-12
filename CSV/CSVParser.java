@@ -1,7 +1,5 @@
-package edu.brown.cs.student.main.Parser;
+package CSV;
 
-import edu.brown.cs.student.main.Creator.CreatorFromRow;
-import edu.brown.cs.student.main.FactoryFailureException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;

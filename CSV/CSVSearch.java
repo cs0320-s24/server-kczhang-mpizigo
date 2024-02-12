@@ -1,7 +1,5 @@
-package edu.brown.cs.student.main.Search;
+package CSV;
 
-import edu.brown.cs.student.main.Creator.RowParser;
-import edu.brown.cs.student.main.Parser.CSVParser;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
