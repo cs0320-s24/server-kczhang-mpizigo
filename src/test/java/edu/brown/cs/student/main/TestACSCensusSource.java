@@ -1,24 +1,27 @@
 package edu.brown.cs.student.main;
 
+import static org.testng.AssertJUnit.assertEquals;
+
+import edu.brown.cs.student.main.datasources.ACSCensusSource;
+import edu.brown.cs.student.main.datasources.CensusData;
+import edu.brown.cs.student.main.datasources.DatasourceException;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import org.junit.jupiter.api.Test;
+
 public class TestACSCensusSource {
 
-  //  @Test
-  //  public void testCensusRequestBadParams() throws IOException {
-  //    /////////// LOAD DATASOURCE ///////////
-  //    // Set up the request, make the request
-  //    HttpURLConnection loadConnection = tryRequest("?state=banana&county=butteCounty");
-  //    // Get an OK response (the *connection* worked, the *API* provides an error response)
-  //    assertEquals(200, loadConnection.getResponseCode());
-  //
-  //    // Get the expected response: a success
-  //    Map<String, Object> responseBody =
-  //        this.adapter.fromJson(new Buffer().readFrom(loadConnection.getInputStream()));
-  //    showDetailsIfError(responseBody);
-  //    assertEquals("err_bad_input: The state banana could not be found",
-  // responseBody.get("result"));
-  //
-  //    assertEquals(null, responseBody.get("census"));
-  //
-  //    loadConnection.disconnect();
-  //  }
+  /**
+   * Tests for good inputs, capitalization, bad parameters (both state & county), county & state switched
+   */
+    @Test
+    public void testDatasourceBadParams()
+        throws DatasourceException, URISyntaxException, IOException, InterruptedException {
+      // Set up the request, make the request
+      ACSCensusSource censusSource = new ACSCensusSource();
+      CensusData data = censusSource.getCensusData("california", "buttecounty");
+      assertEquals("california", data.state());
+      assertEquals("buttecounty", data.county());
+      assertEquals("88.5", data.percentage());
+    }
 }
