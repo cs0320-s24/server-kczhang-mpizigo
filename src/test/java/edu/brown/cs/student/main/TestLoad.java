@@ -6,10 +6,6 @@ import com.squareup.moshi.Moshi;
 import edu.brown.cs.student.main.csv.CSVSearch;
 import edu.brown.cs.student.main.datasources.Datasource;
 import edu.brown.cs.student.main.handlers.*;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import spark.Spark;
 
 import okio.Buffer;
@@ -19,6 +15,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class TestLoad {
 
@@ -81,7 +82,7 @@ public class TestLoad {
         Utilities.SuccessResponse response = moshi.adapter(Utilities.SuccessResponse.class)
                 .fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
         assert response != null;
-        assertEquals("Success",response.getResponseMap().get("result"));
+        assertEquals("success",response.getResponseMap().get("result"));
 
 
         System.out.println(response);
