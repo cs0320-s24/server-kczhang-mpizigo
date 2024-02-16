@@ -23,7 +23,7 @@ public class ViewHandler implements Route {
             responseMap.put("data", dataSource.getData().getParsedFile());
             return new Utilities.SuccessResponse(responseMap).serialize();
         } else {
-            return new Utilities.FailureResponse("data not found");
+            return new Utilities.FailureResponse("error_datasource");
         }
 
     }

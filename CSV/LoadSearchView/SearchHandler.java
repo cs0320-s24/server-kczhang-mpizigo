@@ -36,7 +36,7 @@ public class SearchHandler implements Route {
             responseMap.put("data", this.dataSource.getData().getLastSearch());
             return new Utilities.SuccessResponse(responseMap);
         } else {
-            return new Utilities.FailureResponse("data not found");
+            return new Utilities.FailureResponse("error_datasource");
         }
 
     }
