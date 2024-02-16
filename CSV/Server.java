@@ -11,7 +11,7 @@ public class Server {
   static final int port = 3232;
 
   public static void main(String[] args)
-      throws URISyntaxException, IOException, InterruptedException {
+      throws URISyntaxException, IOException, InterruptedException, DatasourceException {
     Spark.port(port);
 
     after((request, response) -> {

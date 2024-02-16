@@ -21,7 +21,7 @@ import spark.Route;
 public class BroadbandHandler implements Route {
 
   private CensusDatasource dataSource;
-  public BroadbandHandler(CensusDatasource dataSource) throws URISyntaxException, IOException, InterruptedException {
+  public BroadbandHandler(CensusDatasource dataSource) {
     this.dataSource = dataSource;
   }
 
@@ -34,20 +34,23 @@ public class BroadbandHandler implements Route {
    */
 
   @Override
-  public Object handle(Request request, Response response) throws Exception {
-    Moshi moshi = new Moshi.Builder().build();
-
-    Type mapStringObject = Types.newParameterizedType(Map.class, String.class, Object.class);
-    JsonAdapter<Map<String, Object>> adapter = moshi.adapter(mapStringObject);
+  public Object handle(Request request, Response response) {
     Map<String, Object> responseMap = new HashMap<>();
 
     String stateName = request.queryParams("state");
     String countyName = request.queryParams("county");
 
+    System.out.println("state param " + stateName);
+    System.out.println("county param " + countyName);
+
     try {
-      //Gets the state and county codes from the parameters
+      //Gets a CensusData record for the state and county inputs
       CensusData censusData = this.dataSource.getCensusData(stateName, countyName);
       responseMap.put("result", "success");
+      responseMap.put("date", "success");
+      responseMap.put("givenState", stateName);
+      responseMap.put("givenCounty", countyName);
+      responseMap.put("census", censusData.getData());
       return responseMap;
     } catch (Exception e) {
       e.printStackTrace();
@@ -56,6 +59,6 @@ public class BroadbandHandler implements Route {
       // falls short.
       responseMap.put("result", "Exception");
     }
-    return null;
+    return responseMap;
   }
 }
