@@ -65,14 +65,11 @@ public class CachedACSCensusSource implements CensusDatasource {
 
 
   @Override
-  public CensusData getCensusData(String stateName, String countyName)
-      throws DatasourceException, IllegalArgumentException, URISyntaxException, IOException, InterruptedException {
+  public CensusData getCensusData(String stateName, String countyName) {
       String compositeKey = stateName.replaceAll("\\s", "").toLowerCase()
           + ","
           + countyName.replaceAll("\\s", "").toLowerCase();
       CensusData result = this.cache.getUnchecked(compositeKey);
-      System.out.println("result stuff " + result);
-      System.out.println(this.cache.stats());
       return result;
   }
   }
