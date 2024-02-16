@@ -1,10 +1,11 @@
-package CSV.TestLSV;
+package edu.brown.cs.student.main;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import CSV.LoadSearchView.*;
-import CSV.Parser.*;
 import com.squareup.moshi.Moshi;
+import edu.brown.cs.student.main.csv.CSVSearch;
+import edu.brown.cs.student.main.datasources.Datasource;
+import edu.brown.cs.student.main.handlers.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import spark.Spark;
 
 import okio.Buffer;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -30,7 +32,7 @@ public class TestLoad {
     @BeforeEach
     public void setup() {
 
-        DataSource<CSVSearch> dataSource = new DataSource<>();
+        Datasource<CSVSearch> dataSource = new Datasource<>();
         this.load_handler = new LoadHandler(dataSource);
 
         Spark.get("loadcsv", this.load_handler);

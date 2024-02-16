@@ -18,6 +18,10 @@ public class Utilities {
         throw e;
       }
     }
+
+    public Map<String, Object> getResponseMap() {
+      return this.responseMap;
+    }
   }
 
   public record FailureResponse(String response_type, String error_msg) {
