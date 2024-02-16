@@ -1,9 +1,8 @@
-package CSV;
+package CSV.LoadSearchView;
 
 import static spark.Spark.after;
 
-import java.util.ArrayList;
-import java.util.List;
+import CSV.Parser.CSVSearch;
 import spark.Spark;
 public class CSVServer {
     public static void main(String[] args) {
@@ -16,11 +15,11 @@ public class CSVServer {
                     response.header("Access-Control-Allow-Methods", "*");
                 });
 
-        CSVDataSource<CSVSearch> dataSource = new CSVDataSource<>();
+        DataSource<CSVSearch> dataSource = new DataSource<>();
         // Setting up the handler for the endpoints
-        Spark.get("loadcsv", new LoadCSVHandler(dataSource));
-        Spark.get("viewcsv", new ViewCSVHandler(dataSource));
-        Spark.get("searchcsv", new SearchCSVHandler(dataSource));
+        Spark.get("loadcsv", new LoadHandler(dataSource));
+        Spark.get("viewcsv", new ViewHandler(dataSource));
+        Spark.get("searchcsv", new SearchHandler(dataSource));
         Spark.init();
         Spark.awaitInitialization();
 

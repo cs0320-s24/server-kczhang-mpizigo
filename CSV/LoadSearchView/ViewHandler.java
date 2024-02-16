@@ -1,7 +1,6 @@
-package CSV;
+package CSV.LoadSearchView;
 
-import com.squareup.moshi.JsonAdapter;
-import com.squareup.moshi.Moshi;
+import CSV.Parser.CSVSearch;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -9,10 +8,10 @@ import spark.Route;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ViewCSVHandler implements Route {
-    private CSVDataSource<CSVSearch> dataSource;
+public class ViewHandler implements Route {
+    private DataSource<CSVSearch> dataSource;
 
-    public ViewCSVHandler(CSVDataSource<CSVSearch> dataSource) {
+    public ViewHandler(DataSource<CSVSearch> dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -22,9 +21,9 @@ public class ViewCSVHandler implements Route {
         Map<String, Object> responseMap = new HashMap<>();
         if (dataSource.isLoaded() && dataSource.getData().parsed()) {
             responseMap.put("data", dataSource.getData().getParsedFile());
-            return new CSVUtilities.SuccessResponse(responseMap).serialize();
+            return new Utilities.SuccessResponse(responseMap).serialize();
         } else {
-            return new CSVUtilities.FailureResponse("data not found");
+            return new Utilities.FailureResponse("data not found");
         }
 
     }

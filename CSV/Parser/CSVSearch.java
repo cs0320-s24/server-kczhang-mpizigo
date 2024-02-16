@@ -1,4 +1,7 @@
-package CSV;
+package CSV.Parser;
+
+import CSV.Parser.CSVParser;
+import CSV.Parser.RowParser;
 
 import java.io.BufferedReader;
 import java.io.File;

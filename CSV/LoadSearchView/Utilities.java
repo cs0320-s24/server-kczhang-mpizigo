@@ -1,10 +1,10 @@
-package CSV;
+package CSV.LoadSearchView;
 
 import com.squareup.moshi.Moshi;
 
 import java.util.Map;
 
-public class CSVUtilities {
+public class Utilities {
     public record SuccessResponse(String response_type, Map<String, Object> responseMap) {
         public SuccessResponse(Map<String, Object> responseMap) {
             this("success", responseMap);

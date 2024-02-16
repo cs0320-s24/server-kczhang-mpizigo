@@ -1,4 +1,4 @@
-package CSV;
+package CSV.Parser;
 
 import java.io.File;
 import java.util.Scanner;
@@ -15,7 +15,7 @@ import java.util.Scanner;
     String dataPath = "C:\\Users\\Kenny Zhang\\cs0320\\csv-kennethczhang\\data\\";
 
     public static void main(String[] args) {
-      new CSV.Main(args).run();
+      new Main(args).run();
     }
 
     private Main(String[] args) {}

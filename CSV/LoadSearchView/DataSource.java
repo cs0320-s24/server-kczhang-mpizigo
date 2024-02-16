@@ -1,11 +1,11 @@
-package CSV;
+package CSV.LoadSearchView;
 
-public class CSVDataSource<T> {
+public class DataSource<T> {
 
     private T data;
     private boolean loaded;
 
-    public CSVDataSource() {
+    public DataSource() {
         this.loaded = false;
     }
     public void setData(T data) {

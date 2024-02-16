@@ -1,5 +1,6 @@
-package CSV;
+package CSV.LoadSearchView;
 
+import CSV.Parser.CSVSearch;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -7,11 +8,11 @@ import spark.Route;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LoadCSVHandler implements Route {
+public class LoadHandler implements Route {
 
-    private CSVDataSource<CSVSearch> dataSource;
+    private DataSource<CSVSearch> dataSource;
 
-    public LoadCSVHandler(CSVDataSource<CSVSearch> dataSource) {
+    public LoadHandler(DataSource<CSVSearch> dataSource) {
         this.dataSource = dataSource;
     }
     @Override
