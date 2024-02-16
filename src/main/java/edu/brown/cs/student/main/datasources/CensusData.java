@@ -1,6 +1,6 @@
 package edu.brown.cs.student.main.datasources;
 
-public record CensusData(String state, String county, double percentage) {
+public record CensusData(String state, String county, String percentage) {
 
   public String state() {
     return this.state;
@@ -10,9 +10,12 @@ public record CensusData(String state, String county, double percentage) {
     return this.county;
   }
 
-  public double percentage() {
-    return this.percentage();
-  }
+  /**
+   * Getter method for the broadband percentage. Named getPercentage instead of percentage to avoid
+   * confusion with percentage() math method.
+   * @return
+   */
+  public String getPercentage() {return this.percentage();}
 
   public String getData() {
     return ("The county "

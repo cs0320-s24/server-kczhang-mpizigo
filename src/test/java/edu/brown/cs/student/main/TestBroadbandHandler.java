@@ -39,7 +39,7 @@ public class TestBroadbandHandler {
   public void setup() {
     // Re-initialize parser, state, etc. for every test method
     MockedACSCensusSource mockedDatasource =
-        new MockedACSCensusSource(new CensusData("California", "Butte County", 88.5));
+        new MockedACSCensusSource(new CensusData("California", "Butte County", "88.5"));
     Spark.get("broadband", new BroadbandHandler(mockedDatasource));
     Spark.awaitInitialization(); // don't continue until the server is listening
 
@@ -93,7 +93,7 @@ public class TestBroadbandHandler {
     showDetailsIfError(responseBody);
     assertEquals("success", responseBody.get("result"));
 
-    CensusData data = new CensusData("California", "Butte County", 88.5);
+    CensusData data = new CensusData("California", "Butte County", "88.5");
     assertEquals(data.getData(), responseBody.get("census"));
 
     loadConnection.disconnect();
@@ -171,7 +171,7 @@ public class TestBroadbandHandler {
     assertEquals("success", responseBody.get("result"));
 
     // Mocked data: correct temp? We know what it is, because we mocked.
-    CensusData data = new CensusData("California", "Butte County", 88.5);
+    CensusData data = new CensusData("California", "Butte County", "88.5");
     assertEquals(data.getData(), responseBody.get("census"));
 
     loadConnection.disconnect();

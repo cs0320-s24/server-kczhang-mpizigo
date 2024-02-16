@@ -34,7 +34,7 @@ public class ACSCensusSource implements CensusDatasource {
 
       if (stateCode == null) { // if stateName cannot be found inside
         throw new DatasourceException(
-            "error_bad_request: the state " + stateName + " cannot be found");
+            "err_bad_request: the state " + stateName + " cannot be found");
       }
 
       this.setUpCountyCode(stateCode);
@@ -42,7 +42,7 @@ public class ACSCensusSource implements CensusDatasource {
 
       if (countyCode == null) { // if stateName cannot be found inside
         throw new DatasourceException(
-            "error_bad_request: the county " + countyName + " cannot be found");
+            "err_bad_request: the county " + countyName + " cannot be found");
       }
 
       // request the census data for the specific state and county
@@ -67,14 +67,14 @@ public class ACSCensusSource implements CensusDatasource {
       clientConnection.disconnect();
 
       if (!listBody.isEmpty() && !listBody.get(1).isEmpty()) {
-        return new CensusData(stateName, countyName, Double.parseDouble(listBody.get(1).get(1)));
+        return new CensusData(stateName, countyName, listBody.get(1).get(1));
       } else {
-        throw new DatasourceException("error_datasource: no data could be found");
+        throw new DatasourceException("err_datasource: no data could be found");
       }
     } catch (MalformedURLException e) {
-      throw new DatasourceException("error_bad_input: url could not be formed");
+      throw new DatasourceException("err_bad_input: url could not be formed");
     } catch (IOException e) {
-      throw new DatasourceException("error_bad_json: data could not be deserialized");
+      throw new DatasourceException("err_bad_json: data could not be deserialized");
     }
   }
 
