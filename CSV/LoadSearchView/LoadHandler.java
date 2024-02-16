@@ -20,9 +20,14 @@ public class LoadHandler implements Route {
 
         // Set<String> params = request.queryParams();
         String filePath = request.queryParams("file");
-        // maybe also get if there is header??
+        String header = request.queryParams("header");
 
-        CSVSearch searcher = new CSVSearch(filePath, true);
+        // defaults to true unless header set to n
+        boolean hasHeader = (header == null || !header.equals("n"));
+
+        System.out.println(hasHeader);
+
+        CSVSearch searcher = new CSVSearch(filePath, hasHeader);
         this.dataSource.setData(searcher);
 
         Map<String, Object> responseMap = new HashMap<>();
