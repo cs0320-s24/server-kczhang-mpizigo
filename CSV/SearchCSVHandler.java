@@ -1,10 +1,12 @@
 package CSV;
 
+import com.squareup.moshi.Moshi;
 import spark.Request;
 import spark.Response;
 import spark.Route;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SearchCSVHandler implements Route {
@@ -21,17 +23,20 @@ public class SearchCSVHandler implements Route {
         //make sure col is actually empty if not specified
         String val = request.queryParams("val");
 
-        if (col.isEmpty()) {
-            this.dataSource.getData().search(val);
-        } else if (col.matches("(0|[1-9]\\d*)")) {
-            this.dataSource.getData().search(val, Integer.parseInt(col));
+        Map<String, Object> responseMap = new HashMap<>();
+        if (dataSource.isLoaded() && dataSource.getData().parsed()) {
+            if (col.isEmpty()) {
+                this.dataSource.getData().search(val);
+            } else if (col.matches("(0|[1-9]\\d*)")) {
+                this.dataSource.getData().search(val, Integer.parseInt(col));
+            } else {
+                this.dataSource.getData().search(val, col);
+            }
+            responseMap.put("data", this.dataSource.getData().getLastSearch());
+            return new CSVUtilities.SuccessResponse(responseMap);
         } else {
-            this.dataSource.getData().search(val, col);
+            return new CSVUtilities.FailureResponse("data not found");
         }
 
-        Map<String, Object> responseMap = new HashMap<>();
-        responseMap.put("result", "success");
-
-        return responseMap;
     }
 }

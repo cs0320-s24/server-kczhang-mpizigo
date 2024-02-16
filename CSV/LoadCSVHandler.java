@@ -19,7 +19,6 @@ public class LoadCSVHandler implements Route {
 
         // Set<String> params = request.queryParams();
         String filePath = request.queryParams("file");
-
         // maybe also get if there is header??
 
         CSVSearch searcher = new CSVSearch(filePath, true);

@@ -1,5 +1,7 @@
 package CSV;
 
+import com.squareup.moshi.JsonAdapter;
+import com.squareup.moshi.Moshi;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -19,12 +21,11 @@ public class ViewCSVHandler implements Route {
 
         Map<String, Object> responseMap = new HashMap<>();
         if (dataSource.isLoaded() && dataSource.getData().parsed()) {
-            responseMap.put("result", "success");
-            responseMap.put("data", dataSource.getData().getLastSearch());
+            responseMap.put("data", dataSource.getData().getParsedFile());
+            return new CSVUtilities.SuccessResponse(responseMap).serialize();
         } else {
-            responseMap.put("result", "failure");
+            return new CSVUtilities.FailureResponse("data not found");
         }
 
-        return responseMap;
     }
 }
