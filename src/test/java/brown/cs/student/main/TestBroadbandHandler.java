@@ -1,4 +1,4 @@
-package edu.brown.cs.student.main;
+package src.test.java.brown.cs.student.main;
 
 import static org.testng.AssertJUnit.assertEquals;
 
@@ -16,6 +16,11 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import spark.Spark;
+import src.main.java.brown.cs.student.main.handlers.BroadbandHandler;
+import src.main.java.brown.cs.student.main.datasources.CensusData;
+import src.main.java.brown.cs.student.main.datasources.CensusDatasource;
+import src.main.java.brown.cs.student.main.datasources.MockedACSCensusSource;
+
 
 public class TestBroadbandHandler {
   @BeforeAll

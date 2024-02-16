@@ -1,6 +1,7 @@
-package edu.brown.cs.student.main.LoadSearchView;
+package brown.cs.student.main.handlers;
 
-import edu.brown.cs.student.main.Parser.CSVSearch;
+import brown.cs.student.main.csv.CSVSearch;
+import brown.cs.student.main.datasources.Datasource;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -10,9 +11,9 @@ import java.util.Map;
 
 public class LoadHandler implements Route {
 
-    private DataSource<CSVSearch> dataSource;
+    private Datasource<CSVSearch> dataSource;
 
-    public LoadHandler(DataSource<CSVSearch> dataSource) {
+    public LoadHandler(Datasource<CSVSearch> dataSource) {
         this.dataSource = dataSource;
     }
     @Override

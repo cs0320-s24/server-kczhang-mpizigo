@@ -1,4 +1,4 @@
-package edu.brown.cs.student.main;
+package brown.cs.student.main.datasources;
 
 /**
  * This exception communicates that something went wrong with

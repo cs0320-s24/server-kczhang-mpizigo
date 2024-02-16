@@ -1,4 +1,4 @@
-package edu.brown.cs.student.main;
+package brown.cs.student.main.datasources;
 
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;

@@ -1,4 +1,4 @@
-package edu.brown.cs.student.main.LoadSearchView;
+package brown.cs.student.main.handlers;
 
 import com.squareup.moshi.Moshi;
 

@@ -1,4 +1,4 @@
-package edu.brown.cs.student.main.Parser;
+package brown.cs.student.main.csv;
 
 import java.util.ArrayList;
 import java.util.List;

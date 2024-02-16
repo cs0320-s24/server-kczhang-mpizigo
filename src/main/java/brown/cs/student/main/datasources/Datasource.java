@@ -1,11 +1,11 @@
-package edu.brown.cs.student.main.LoadSearchView;
+package brown.cs.student.main.datasources;
 
-public class DataSource<T> {
+public class Datasource<T> {
 
     private T data;
     private boolean loaded;
 
-    public DataSource() {
+    public Datasource() {
         this.loaded = false;
     }
     public void setData(T data) {

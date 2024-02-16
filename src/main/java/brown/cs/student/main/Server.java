@@ -1,12 +1,15 @@
-package edu.brown.cs.student.main;
+package brown.cs.student.main;
 
 import static spark.Spark.after;
 
-import edu.brown.cs.student.main.LoadSearchView.DataSource;
-import edu.brown.cs.student.main.LoadSearchView.LoadHandler;
-import edu.brown.cs.student.main.LoadSearchView.SearchHandler;
-import edu.brown.cs.student.main.LoadSearchView.ViewHandler;
-import edu.brown.cs.student.main.Parser.CSVSearch;
+import brown.cs.student.main.csv.CSVSearch;
+import brown.cs.student.main.datasources.ACSCensusSource;
+import brown.cs.student.main.datasources.Datasource;
+import brown.cs.student.main.datasources.DatasourceException;
+import brown.cs.student.main.handlers.BroadbandHandler;
+import brown.cs.student.main.handlers.LoadHandler;
+import brown.cs.student.main.handlers.SearchHandler;
+import brown.cs.student.main.handlers.ViewHandler;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
@@ -26,7 +29,7 @@ public class Server {
       response.header("Access-Control-Allow-Methods", "GET"); // ask for only GET?
     });
 
-    DataSource<CSVSearch> dataSource = new DataSource<>();
+    Datasource<CSVSearch> dataSource = new Datasource<>();
     Spark.get("loadcsv", new LoadHandler(dataSource));
     Spark.get("viewcsv", new ViewHandler(dataSource));
     Spark.get("searchcsv", new SearchHandler(dataSource));
