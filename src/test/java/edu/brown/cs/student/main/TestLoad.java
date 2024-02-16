@@ -52,9 +52,10 @@ public class TestLoad {
         if (!apiCall.equals("")) {
             requestURL = new URL("http://localhost:" + Spark.port() + "/loadcsv?" + apiCall);
         } else {
-            requestURL = new URL("http://localhost:" + Spark.port() + "/loadcsv");
+            requestURL = new URL("http://localhost:" + Spark.port() + "/loadcsv?");
         }
 
+        System.out.println("request url is " + requestURL);
         HttpURLConnection clientConnection = (HttpURLConnection) requestURL.openConnection();
 
         // The default method is "GET", which is what we're using here.
@@ -75,9 +76,6 @@ public class TestLoad {
         HttpURLConnection clientConnection = tryRequest("filepath=data/census/income_by_race.csv");
         // Get an OK response (the *connection* worked, the *API* provides an error response)
         assertEquals(200, clientConnection.getResponseCode());
-
-        // Now we need to see whether we've got the expected Json response.
-        // SoupAPIUtilities handles ingredient lists, but that's not what we've got here.
 
         Moshi moshi = new Moshi.Builder().build();
         Utilities.SuccessResponse response = moshi.adapter(Utilities.SuccessResponse.class)

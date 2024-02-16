@@ -13,9 +13,12 @@ public record CensusData(String state, String county, String percentage) {
   /**
    * Getter method for the broadband percentage. Named getPercentage instead of percentage to avoid
    * confusion with percentage() math method.
+   *
    * @return
    */
-  public String getPercentage() {return this.percentage();}
+  public String getPercentage() {
+    return this.percentage();
+  }
 
   public String getData() {
     return ("The county "

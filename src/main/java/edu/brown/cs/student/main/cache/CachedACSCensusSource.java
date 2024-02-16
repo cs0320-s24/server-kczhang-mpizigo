@@ -7,6 +7,7 @@ import edu.brown.cs.student.main.datasources.ACSCensusSource;
 import edu.brown.cs.student.main.datasources.CensusData;
 import edu.brown.cs.student.main.datasources.CensusDatasource;
 import edu.brown.cs.student.main.datasources.DatasourceException;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -21,11 +22,7 @@ public class CachedACSCensusSource implements CensusDatasource {
   private final LoadingCache<String, CensusData> cache;
 
   /**
-   * Proxy class: wrap an instance of Searcher (of any kind) and cache its results.
-   *
-   * <p>There are _many_ ways to implement this! We could use a plain HashMap, but then we'd have to
-   * handle "eviction" ourselves. Lots of libraries exist. We're using Guava here, to demo the
-   * strategy pattern.
+   * Proxy class: wrap an instance of Searcher (of any kind) and cache its results
    *
    * @param toWrap the Searcher to wrap
    */
@@ -52,18 +49,28 @@ public class CachedACSCensusSource implements CensusDatasource {
                     System.out.println("called load for: " + compositeKey);
                     String[] names = compositeKey.split(",");
                     // If this isn't yet present in the cache, load it:
-                    return wrappedDatasource.getCensusData(names[0], names[1]);
+                    try {
+                      return wrappedDatasource.getCensusData(names[0], names[1]);
+                    } catch(ArrayIndexOutOfBoundsException e) {
+                      throw new DatasourceException("err_bad_input: no county was given");
+                    }
                   }
                 });
   }
 
   @Override
-  public CensusData getCensusData(String stateName, String countyName) {
+  public CensusData getCensusData(String stateName, String countyName) throws DatasourceException {
     String compositeKey =
         stateName.replaceAll("\\s", "").toLowerCase()
             + ","
             + countyName.replaceAll("\\s", "").toLowerCase();
     CensusData result = this.cache.getUnchecked(compositeKey);
     return result;
+
+
+  }
+
+  public LoadingCache<String, CensusData> getCache() {
+    return this.cache;
   }
 }
