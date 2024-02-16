@@ -1,4 +1,4 @@
-package CSV;
+package edu.brown.cs.student.main;
 
 public record CensusData(String state, String county, double percentage) {
 

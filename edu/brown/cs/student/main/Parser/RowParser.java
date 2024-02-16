@@ -1,7 +1,7 @@
-package CSV.Parser;
+package edu.brown.cs.student.main.Parser;
 
 
-import CSV.CreatorFromRow;
+import edu.brown.cs.student.main.CreatorFromRow;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package CSV;
+package edu.brown.cs.student.main;
 
 import static org.testng.AssertJUnit.assertEquals;
 
@@ -12,11 +12,9 @@ import java.net.URL;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import okio.Buffer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.testng.annotations.Test;
 import spark.Spark;
 
 public class TestBroadbandHandler {
@@ -42,7 +40,7 @@ public class TestBroadbandHandler {
     // Re-initialize parser, state, etc. for every test method
 
     CensusDatasource mockedSource = new MockedACSCensusSource(new CensusData("California", "Butte County", 88.5));
-    Spark.get("/CSV", new BroadbandHandler(mockedSource));
+    Spark.get("/edu/brown/cs/student/main", new BroadbandHandler(mockedSource));
     Spark.awaitInitialization(); // don't continue until the server is listening
 
     // New Moshi adapter for responses (and requests, too; see a few lines below)

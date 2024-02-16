@@ -1,4 +1,4 @@
-package CSV;
+package edu.brown.cs.student.main;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

@@ -1,15 +1,15 @@
-package CSV;
+package edu.brown.cs.student.main;
 
 import static spark.Spark.after;
 
+import edu.brown.cs.student.main.LoadSearchView.DataSource;
+import edu.brown.cs.student.main.LoadSearchView.LoadHandler;
+import edu.brown.cs.student.main.LoadSearchView.SearchHandler;
+import edu.brown.cs.student.main.LoadSearchView.ViewHandler;
+import edu.brown.cs.student.main.Parser.CSVSearch;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import CSV.LoadSearchView.DataSource;
-import CSV.LoadSearchView.LoadHandler;
-import CSV.LoadSearchView.SearchHandler;
-import CSV.LoadSearchView.ViewHandler;
-import CSV.Parser.CSVSearch;
 import spark.Spark;
 
 public class Server {

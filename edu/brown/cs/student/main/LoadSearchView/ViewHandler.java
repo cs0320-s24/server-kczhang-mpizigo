@@ -1,6 +1,6 @@
-package CSV.LoadSearchView;
+package edu.brown.cs.student.main.LoadSearchView;
 
-import CSV.Parser.CSVSearch;
+import edu.brown.cs.student.main.Parser.CSVSearch;
 import spark.Request;
 import spark.Response;
 import spark.Route;

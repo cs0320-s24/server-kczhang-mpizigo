@@ -1,4 +1,4 @@
-package CSV;
+package edu.brown.cs.student.main;
 
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -24,23 +24,25 @@ public class ACSCensusSource implements CensusDatasource{
       throws URISyntaxException, IOException, InterruptedException, DatasourceException {
     this.stateToCode = new HashMap<>();
     this.countyToCode = new HashMap<>();
-    this.setUpCodes();
+    this.setUpStateCode();
   }
   @Override
   public CensusData getCensusData(String stateName, String countyName) throws DatasourceException {
     try {
       // build and send request to Census API
-      System.out.println("state name is " + stateName);
-      System.out.println("county name is " + countyName);
-      String stateCode = this.stateToCode.get(stateName.replaceAll("\\s", "").trim());
-      String countyCode = this.countyToCode.get(countyName.replaceAll("\\s", "").toLowerCase());
+      String stateCode = this.stateToCode.get(stateName.replaceAll("\\s", "").toLowerCase());
 
       if (stateCode == null) { //if stateName cannot be found inside
         throw new DatasourceException("error_bad_request: the state " + stateName + " cannot be found");
       }
+
+      this.setUpCountyCode(stateCode);
+      String countyCode = this.countyToCode.get(countyName.replaceAll("\\s", "").toLowerCase());
+
       if (countyCode == null) { //if stateName cannot be found inside
         throw new DatasourceException("error_bad_request: the county " + countyName + " cannot be found");
       }
+
       // request the census data for the specific state and county
       URL requestURL = new URL("https", "api.census.gov",
           "/data/2021/acs/acs1/subject/variables?get=NAME,S2802_C03_022E&for=county:"
@@ -55,12 +57,10 @@ public class ACSCensusSource implements CensusDatasource{
       clientConnection.disconnect();
 
       if (!listBody.isEmpty() && !listBody.get(1).isEmpty()) {
-        System.out.println("got into returng the census");
         return new CensusData(stateName, countyName, Double.parseDouble(listBody.get(1).get(1)));
       } else {
         throw new DatasourceException("error_datasource: no data could be found");
       }
-
     } catch (MalformedURLException e) {
       throw new DatasourceException("error_bad_json: url could not be formed");
     } catch (IOException e) {
@@ -68,7 +68,7 @@ public class ACSCensusSource implements CensusDatasource{
     }
   }
 
-  private void setUpCodes() throws IOException, DatasourceException {
+  private void setUpStateCode() throws IOException, DatasourceException {
     Moshi moshi = new Moshi.Builder().build();
     Type listOfListOfStringType = Types.newParameterizedType(List.class, List.class, String.class);
     JsonAdapter<List<List<String>>> adapter = moshi.adapter(listOfListOfStringType);
@@ -90,12 +90,23 @@ public class ACSCensusSource implements CensusDatasource{
           this.stateToCode.put(stateToCodeList.get(i).get(0).replaceAll("\\s", "").toLowerCase(),
               stateToCodeList.get(i).get(1).trim());
         }
-        System.out.println("state list " + stateToCode);
       }
 
+    } catch (MalformedURLException | DatasourceException e) {
+      throw new DatasourceException(e.getMessage(), e);
+    }
+  }
+
+  private void setUpCountyCode(String stateCode) throws MalformedURLException {
+    Moshi moshi = new Moshi.Builder().build();
+    Type listOfListOfStringType = Types.newParameterizedType(List.class, List.class, String.class);
+    JsonAdapter<List<List<String>>> adapter = moshi.adapter(listOfListOfStringType);
+
+    try {
       // request ACS for county codes
       URL countyRequestURL = new URL("https", "api.census.gov",
-          "/data/2010/dec/sf1?get=NAME&for=county:*&in=state:*&key=dc5555afd3b59add8f7f8022727e88505d7971b0");
+          "/data/2010/dec/sf1?get=NAME&for=county:*&in=state:" + stateCode
+              + "&key=dc5555afd3b59add8f7f8022727e88505d7971b0");
       HttpURLConnection newClientConnection = connect(countyRequestURL);
 
       List<List<String>> countyToCodeList = adapter.fromJson(
@@ -106,19 +117,18 @@ public class ACSCensusSource implements CensusDatasource{
       if (!countyToCodeList.isEmpty()) {
         for (int i = 1; i < countyToCodeList.size(); i++) {
           String[] stringArray = countyToCodeList.get(i).get(0).split(",");
-          System.out.println("the string array is " + stringArray[0] + " and code is " + countyToCodeList.get(i).get(2));
           this.countyToCode.put(stringArray[0].replaceAll("\\s", "").toLowerCase(),
               countyToCodeList.get(i).get(2).trim());
         }
-        System.out.println("county list " + countyToCode);
       }
-
-    } catch (MalformedURLException | DatasourceException e) {
-      throw new DatasourceException(e.getMessage(), e);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    } catch (DatasourceException e) {
+      throw new RuntimeException(e);
     }
   }
 
-  private static HttpURLConnection connect(URL requestURL) throws DatasourceException, IOException {
+    private static HttpURLConnection connect(URL requestURL) throws DatasourceException, IOException {
     URLConnection urlConnection = requestURL.openConnection();
     if(! (urlConnection instanceof HttpURLConnection))
       throw new DatasourceException("unexpected: result of connection wasn't HTTP");

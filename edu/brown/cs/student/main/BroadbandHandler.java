@@ -1,18 +1,10 @@
-package CSV;
+package edu.brown.cs.student.main;
 
-import com.squareup.moshi.JsonAdapter;
-import com.squareup.moshi.Moshi;
-import com.squareup.moshi.Types;
-import java.io.FileReader;
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import spark.Request;
 import spark.Response;
@@ -40,14 +32,14 @@ public class BroadbandHandler implements Route {
     String stateName = request.queryParams("state");
     String countyName = request.queryParams("county");
 
-    System.out.println("state param " + stateName);
-    System.out.println("county param " + countyName);
+    Date date = Calendar.getInstance().getTime();
+    DateFormat format = new SimpleDateFormat("hh:mm:ss dd-MM-yyyy");
 
     try {
       //Gets a CensusData record for the state and county inputs
       CensusData censusData = this.dataSource.getCensusData(stateName, countyName);
       responseMap.put("result", "success");
-      responseMap.put("date", "success");
+      responseMap.put("date", format.format(date));
       responseMap.put("givenState", stateName);
       responseMap.put("givenCounty", countyName);
       responseMap.put("census", censusData.getData());
@@ -58,6 +50,7 @@ public class BroadbandHandler implements Route {
       // in learning to debug correctly by creating your own informative error messages where Spark
       // falls short.
       responseMap.put("result", "Exception");
+
     }
     return responseMap;
   }

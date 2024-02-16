@@ -1,6 +1,6 @@
-package CSV;
+package edu.brown.cs.student.main;
 
-import CSV.Parser.FactoryFailureException;
+import edu.brown.cs.student.main.Parser.FactoryFailureException;
 
 import java.util.List;
 

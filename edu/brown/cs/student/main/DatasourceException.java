@@ -1,4 +1,4 @@
-package CSV;
+package edu.brown.cs.student.main;
 
 /**
  * This exception communicates that something went wrong with

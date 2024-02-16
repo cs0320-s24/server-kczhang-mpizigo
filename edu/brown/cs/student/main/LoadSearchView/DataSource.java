@@ -1,4 +1,4 @@
-package CSV.LoadSearchView;
+package edu.brown.cs.student.main.LoadSearchView;
 
 public class DataSource<T> {
 

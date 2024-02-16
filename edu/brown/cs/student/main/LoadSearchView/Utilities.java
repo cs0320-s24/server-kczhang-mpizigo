@@ -1,4 +1,4 @@
-package CSV.LoadSearchView;
+package edu.brown.cs.student.main.LoadSearchView;
 
 import com.squareup.moshi.Moshi;
 

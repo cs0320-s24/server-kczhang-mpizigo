@@ -1,4 +1,4 @@
-package CSV.Parser;
+package edu.brown.cs.student.main.Parser;
 
 import java.util.ArrayList;
 import java.util.List;

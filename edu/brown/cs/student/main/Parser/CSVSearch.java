@@ -1,7 +1,4 @@
-package CSV.Parser;
-
-import CSV.Parser.CSVParser;
-import CSV.Parser.RowParser;
+package edu.brown.cs.student.main.Parser;
 
 import java.io.BufferedReader;
 import java.io.File;
