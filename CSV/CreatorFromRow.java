@@ -1,5 +1,7 @@
 package CSV;
 
+import CSV.Parser.FactoryFailureException;
+
 import java.util.List;
 
 /**

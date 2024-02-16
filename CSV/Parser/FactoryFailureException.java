@@ -1,4 +1,4 @@
-package CSV;
+package CSV.Parser;
 
 import java.util.ArrayList;
 import java.util.List;

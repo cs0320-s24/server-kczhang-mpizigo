@@ -1,4 +1,7 @@
-package CSV;
+package CSV.Parser;
+
+import CSV.Parser.CSVParser;
+import CSV.Parser.RowParser;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -63,7 +66,6 @@ public class CSVSearch {
         for (List<String> row : this.parsedFile) {
             for (String item : row) {
                 if (item.equals(val)) {
-                    System.out.println(row);
                     this.lastSearchResult.add(row);
                     found = true;
                     break;
@@ -129,7 +131,6 @@ public class CSVSearch {
         boolean found = false;
         for (List<String> strings : this.parsedFile) {
             if (strings.size() > index && strings.get(index).equals(val)) {
-                System.out.println(strings);
                 this.lastSearchResult.add(strings);
                 found = true;
             }
@@ -146,4 +147,6 @@ public class CSVSearch {
     public boolean parsed() {
         return this.parsed;
     }
+
+    public List<List<String>> getParsedFile() { return this.parsedFile; }
 }
