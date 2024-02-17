@@ -2,6 +2,7 @@ package edu.brown.cs.student.main;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 import edu.brown.cs.student.main.csv.CSVSearch;
 import edu.brown.cs.student.main.datasources.Datasource;

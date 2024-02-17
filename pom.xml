@@ -29,7 +29,7 @@
            Moshi 1.13.0 was released in December 2021.
            We'll also use Moshi's adapters package, which includes pre-built adapters
            for quite a few things, including polymorphic adapters.
-           The adapters README.md includes a "latest.version" version; replaced with
+           The adapters README.md.md includes a "latest.version" version; replaced with
            latest version as of August 2022.
        -->
     <dependency>

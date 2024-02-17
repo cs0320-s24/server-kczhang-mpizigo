@@ -1,7 +1,11 @@
 package edu.brown.cs.student.main.handlers;
 
+import com.squareup.moshi.JsonAdapter;
+import com.squareup.moshi.Moshi;
+import com.squareup.moshi.Types;
 import edu.brown.cs.student.main.csv.CSVSearch;
 import edu.brown.cs.student.main.datasources.Datasource;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 import spark.Request;
@@ -35,6 +39,10 @@ public class LoadHandler implements Route {
    */
   @Override
   public Object handle(Request request, Response response) {
+    Moshi moshi = new Moshi.Builder().build();
+    Type mapStringObject = Types.newParameterizedType(Map.class, String.class, Object.class);
+    JsonAdapter<Map<String, Object>> adapter = moshi.adapter(mapStringObject);
+
     // Get the file path and header information from the request
     String filePath = request.queryParams("filepath");
     String header = request.queryParams("header");
@@ -59,7 +67,7 @@ public class LoadHandler implements Route {
     // Store the response map as the recent response
     this.recentMap = responseMap;
     // Return the response map
-    return responseMap;
+    return adapter.toJson(responseMap);
   }
 
   /**
