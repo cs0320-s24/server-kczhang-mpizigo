@@ -18,7 +18,7 @@ import spark.Spark;
 
 public class Server {
 
-  static final int port = 3232;
+  static final int port = 3230;
 
   public static void main(String[] args)
       throws URISyntaxException, IOException, InterruptedException, DatasourceException {

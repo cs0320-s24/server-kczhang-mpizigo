@@ -1,5 +1,7 @@
 package edu.brown.cs.student.main.handlers;
 
+import com.squareup.moshi.JsonAdapter;
+import com.squareup.moshi.Moshi;
 import edu.brown.cs.student.main.csv.CSVSearch;
 import edu.brown.cs.student.main.datasources.Datasource;
 import java.util.HashMap;
@@ -55,7 +57,10 @@ public class SearchHandler implements Route {
       // Add the search result to the response map
       responseMap.put("data", this.dataSource.getData().getLastSearch());
       // Return a success response with the search result
-      return new Utilities.SuccessResponse(responseMap);
+      Moshi moshi = new Moshi.Builder().build();
+      JsonAdapter<Map> jsonAdapter = moshi.adapter(Map.class);
+      String jsonString = jsonAdapter.toJson(responseMap);
+      return jsonString;
     } else {
       // Return a failure response if data source is not loaded or CSV data is not parsed
       return new Utilities.FailureResponse("error_datasource");

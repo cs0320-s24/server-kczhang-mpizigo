@@ -1,5 +1,7 @@
 package edu.brown.cs.student.main.handlers;
 
+import com.squareup.moshi.JsonAdapter;
+import com.squareup.moshi.Moshi;
 import edu.brown.cs.student.main.csv.CSVSearch;
 import edu.brown.cs.student.main.datasources.Datasource;
 import java.util.HashMap;
@@ -58,8 +60,10 @@ public class LoadHandler implements Route {
 
     // Store the response map as the recent response
     this.recentMap = responseMap;
-    // Return the response map
-    return responseMap;
+    Moshi moshi = new Moshi.Builder().build();
+    JsonAdapter<Map> jsonAdapter = moshi.adapter(Map.class);
+    String jsonString = jsonAdapter.toJson(responseMap);
+    return jsonString;
   }
 
   /**
