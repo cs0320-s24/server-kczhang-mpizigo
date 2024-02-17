@@ -7,25 +7,45 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.List;
 import okio.Buffer;
 
+/**
+ * The ACSCensusSource class is responsible for querying the Census API for state and county codes,
+ * and using those in a query for state and county broadband internet percentages. It implements the
+ * CensusDatasource interface to generify the datasources BroadbandHandler can take in (also allows
+ * for data mocking).
+ */
 public class ACSCensusSource implements CensusDatasource {
 
   private HashMap<String, String> stateToCode;
   private HashMap<String, String> countyToCode;
 
-  public ACSCensusSource()
-      throws URISyntaxException, IOException, InterruptedException, DatasourceException {
+  /**
+   * Constructs the datasource.
+   *
+   * @throws IOException due to issues connecting with the API
+   * @throws DatasourceException due to various other errors; sends informative messages
+   */
+  public ACSCensusSource() throws IOException, DatasourceException {
     this.stateToCode = new HashMap<>();
     this.countyToCode = new HashMap<>();
     this.setUpStateCode();
   }
 
+  /**
+   * Queries the census API for the broadband internet percentage of a specific state and county.
+   * First finds the codes related to the state and county inputs, then plugs that code into an API
+   * request.
+   *
+   * @param stateName the specified state
+   * @param countyName the specified county
+   * @return a CensusData instance listing the API results
+   * @throws DatasourceException in case of issues with the API call
+   */
   @Override
   public CensusData getCensusData(String stateName, String countyName) throws DatasourceException {
     try {
@@ -78,6 +98,12 @@ public class ACSCensusSource implements CensusDatasource {
     }
   }
 
+  /**
+   * Populates a Hashmap linking state names to their respective codes.
+   *
+   * @throws IOException in case of a malformed url
+   * @throws DatasourceException in case of any other issues; sends out an informative message
+   */
   private void setUpStateCode() throws IOException, DatasourceException {
     Moshi moshi = new Moshi.Builder().build();
     Type listOfListOfStringType = Types.newParameterizedType(List.class, List.class, String.class);
@@ -112,6 +138,12 @@ public class ACSCensusSource implements CensusDatasource {
     }
   }
 
+  /**
+   * Populates a Hashmap linking county names to their respective codes based on a state code.
+   *
+   * @throws IOException in case of a malformed url
+   * @throws DatasourceException in case of any other issues; sends out an informative message
+   */
   private void setUpCountyCode(String stateCode) throws MalformedURLException {
     Moshi moshi = new Moshi.Builder().build();
     Type listOfListOfStringType = Types.newParameterizedType(List.class, List.class, String.class);
@@ -148,6 +180,14 @@ public class ACSCensusSource implements CensusDatasource {
     }
   }
 
+  /**
+   * Helper method that handles connection relative to a specific url.
+   *
+   * @param requestURL the url to try
+   * @return a successful connection to the API
+   * @throws DatasourceException in case of unexpected errors; sends a helpful message
+   * @throws IOException in case malformed urls
+   */
   private static HttpURLConnection connect(URL requestURL) throws DatasourceException, IOException {
     URLConnection urlConnection = requestURL.openConnection();
     if (!(urlConnection instanceof HttpURLConnection))

@@ -17,13 +17,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import okio.Buffer;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.testng.annotations.BeforeClass;
 import spark.Spark;
 
 public class TestBroadbandHandler {
-  @BeforeAll
+  @BeforeClass
   public static void setupOnce() {
     // Pick an arbitrary free port
     Spark.port(0);
@@ -160,7 +160,7 @@ public class TestBroadbandHandler {
   public void testCensusRequestCapitalization() throws IOException {
     /////////// LOAD DATASOURCE ///////////
     // Set up the request, make the request
-    HttpURLConnection loadConnection = tryRequest("?state=California&county=butteCounty");
+    HttpURLConnection loadConnection = tryRequest("?state=cAlIFOrnia&county=bUTteCounty");
     // Get an OK response (the *connection* worked, the *API* provides an error response)
     assertEquals(200, loadConnection.getResponseCode());
 
@@ -170,7 +170,6 @@ public class TestBroadbandHandler {
     showDetailsIfError(responseBody);
     assertEquals("success", responseBody.get("result"));
 
-    // Mocked data: correct temp? We know what it is, because we mocked.
     CensusData data = new CensusData("California", "Butte County", "88.5");
     assertEquals(data.getData(), responseBody.get("census"));
 

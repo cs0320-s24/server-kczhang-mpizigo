@@ -2,10 +2,8 @@ package edu.brown.cs.student.main.handlers;
 
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
-import com.squareup.moshi.Types;
 import edu.brown.cs.student.main.csv.CSVSearch;
 import edu.brown.cs.student.main.datasources.Datasource;
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 import spark.Request;
@@ -13,8 +11,8 @@ import spark.Response;
 import spark.Route;
 
 /**
- * The LoadHandler class is responsible for handling HTTP requests related to loading CSV data.
- * It implements the Spark Route interface to handle incoming requests.
+ * The LoadHandler class is responsible for handling HTTP requests related to loading CSV data. It
+ * implements the Spark Route interface to handle incoming requests.
  */
 public class LoadHandler implements Route {
 
@@ -33,7 +31,7 @@ public class LoadHandler implements Route {
   /**
    * Handles HTTP requests to load CSV data.
    *
-   * @param request  The HTTP request received by the server.
+   * @param request The HTTP request received by the server.
    * @param response The HTTP response to be sent back to the client.
    * @return A map containing the response data.
    */

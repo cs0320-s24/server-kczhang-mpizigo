@@ -1,6 +1,6 @@
 package edu.brown.cs.student.main.load_view_search;
 
-import static org.testng.AssertJUnit.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
@@ -19,9 +19,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import okio.Buffer;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.testng.annotations.BeforeClass;
 import spark.Spark;
 
 public class TestSearch {
@@ -33,7 +33,7 @@ public class TestSearch {
     adapter = moshi.adapter(type);
   }
 
-  @BeforeAll
+  @BeforeClass
   public static void setup_before_everything() {
     Spark.port(0);
     Logger.getLogger("").setLevel(Level.WARNING); // empty name = root logger
@@ -77,7 +77,19 @@ public class TestSearch {
     assertEquals(200, clientConnection.getResponseCode());
     Map<String, Object> response =
         adapter.fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
-    assertEquals(Arrays.asList(Arrays.asList("4", "Asian", "2013", "2013", "69161", "10626", "\"Kent County, RI\"", "05000US44003", "kent-county-ri")), response.get("data"));
+    assertEquals(
+        Arrays.asList(
+            Arrays.asList(
+                "4",
+                "Asian",
+                "2013",
+                "2013",
+                "69161",
+                "10626",
+                "\"Kent County, RI\"",
+                "05000US44003",
+                "kent-county-ri")),
+        response.get("data"));
   }
 
   @Test
@@ -89,7 +101,19 @@ public class TestSearch {
     assertEquals(200, clientConnection.getResponseCode());
     Map<String, Object> response =
         adapter.fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
-    assertEquals(Arrays.asList(Arrays.asList("4", "Asian", "2013", "2013", "69161", "10626", "\"Kent County, RI\"", "05000US44003", "kent-county-ri")), response.get("data"));
+    assertEquals(
+        Arrays.asList(
+            Arrays.asList(
+                "4",
+                "Asian",
+                "2013",
+                "2013",
+                "69161",
+                "10626",
+                "\"Kent County, RI\"",
+                "05000US44003",
+                "kent-county-ri")),
+        response.get("data"));
   }
 
   @Test
@@ -97,10 +121,23 @@ public class TestSearch {
     HttpURLConnection clientConnection1 =
         tryRequest("loadcsv?filepath=data/census/income_by_race.csv&header=y");
     assertEquals(200, clientConnection1.getResponseCode());
-    HttpURLConnection clientConnection = tryRequest("searchcsv?val=10626&col=Household%20Income%20by%20Race%20Moe");
+    HttpURLConnection clientConnection =
+        tryRequest("searchcsv?val=10626&col=Household%20Income%20by%20Race%20Moe");
     assertEquals(200, clientConnection.getResponseCode());
     Map<String, Object> response =
         adapter.fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
-    assertEquals(Arrays.asList(Arrays.asList("4", "Asian", "2013", "2013", "69161", "10626", "\"Kent County, RI\"", "05000US44003", "kent-county-ri")), response.get("data"));
+    assertEquals(
+        Arrays.asList(
+            Arrays.asList(
+                "4",
+                "Asian",
+                "2013",
+                "2013",
+                "69161",
+                "10626",
+                "\"Kent County, RI\"",
+                "05000US44003",
+                "kent-county-ri")),
+        response.get("data"));
   }
 }

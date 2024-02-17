@@ -11,8 +11,8 @@ import spark.Response;
 import spark.Route;
 
 /**
- * The SearchHandler class is responsible for handling HTTP requests related to searching data within a CSV file.
- * It implements the Spark Route interface to handle incoming requests.
+ * The SearchHandler class is responsible for handling HTTP requests related to searching data
+ * within a CSV file. It implements the Spark Route interface to handle incoming requests.
  */
 public class SearchHandler implements Route {
 
@@ -30,7 +30,7 @@ public class SearchHandler implements Route {
   /**
    * Handles HTTP requests to search data within a CSV file.
    *
-   * @param request  The HTTP request received by the server.
+   * @param request The HTTP request received by the server.
    * @param response The HTTP response to be sent back to the client.
    * @return A JSON string representing the response to the client.
    * @throws Exception If an error occurs during request handling.

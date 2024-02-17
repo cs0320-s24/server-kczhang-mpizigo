@@ -16,10 +16,23 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import spark.Spark;
 
+/**
+ * The main class of the program. It initializes the local serve through Spark Java, as well as sets
+ * its various endpoints. It prints out a link to the localhost for easy access.
+ */
 public class Server {
 
-  static final int port = 3230;
+  static final int port = 3232;
 
+  /**
+   * The main method of our program. Initializes our server and sets its endpoints.
+   *
+   * @param args
+   * @throws URISyntaxException
+   * @throws IOException
+   * @throws InterruptedException
+   * @throws DatasourceException
+   */
   public static void main(String[] args)
       throws URISyntaxException, IOException, InterruptedException, DatasourceException {
     Spark.port(port);

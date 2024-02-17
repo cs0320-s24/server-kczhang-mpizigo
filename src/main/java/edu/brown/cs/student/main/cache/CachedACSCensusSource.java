@@ -7,30 +7,26 @@ import edu.brown.cs.student.main.datasources.ACSCensusSource;
 import edu.brown.cs.student.main.datasources.CensusData;
 import edu.brown.cs.student.main.datasources.CensusDatasource;
 import edu.brown.cs.student.main.datasources.DatasourceException;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 /**
- * A class that wraps a FileServer instance and caches responses for efficiency. Notice that the
- * interface hasn't changed at all. This is an example of the proxy pattern; callers will interact
- * with the CachedFileServer, rather than the "real" data source.
- *
- * <p>This version uses a Guava cache class to manage the cache.
+ * A proxy class that wraps a ACSCensusDatasource instance and caches responses for efficiency. It
+ * uses a Guava cache class to manage the cache.
  */
 public class CachedACSCensusSource implements CensusDatasource {
   private final ACSCensusSource wrappedDatasource;
   private final LoadingCache<String, CensusData> cache;
 
   /**
-   * Proxy class: wrap an instance of Searcher (of any kind) and cache its results
+   * Constructs the proxy class to wrap an instance of ACSCensusData and cache its results
    *
-   * @param toWrap the Searcher to wrap
+   * @param toWrap the datasource to wrap
+   * @param cacheData the parameters the cache must follow; can be chosen by the developer
    */
   public CachedACSCensusSource(ACSCensusSource toWrap, CacheData cacheData) {
     this.wrappedDatasource = toWrap;
 
-    // Look at the docs -- there are lots of builder parameters you can use
-    //   including ones that affect garbage-collection (not needed for Server).
+    // Builds the
     this.cache =
         CacheBuilder.newBuilder()
             // How many entries maximum in the cache?
@@ -40,8 +36,6 @@ public class CachedACSCensusSource implements CensusDatasource {
             // Keep statistical info around for profiling purposes
             .recordStats()
             .build(
-                // Strategy pattern: how should the cache behave when
-                // it's asked for something it doesn't have?
                 new CacheLoader<>() {
                   @Override
                   public CensusData load(String compositeKey) throws DatasourceException {
@@ -51,13 +45,23 @@ public class CachedACSCensusSource implements CensusDatasource {
                     // If this isn't yet present in the cache, load it:
                     try {
                       return wrappedDatasource.getCensusData(names[0], names[1]);
-                    } catch(ArrayIndexOutOfBoundsException e) {
+                    } catch (ArrayIndexOutOfBoundsException e) {
                       throw new DatasourceException("err_bad_input: no county was given");
                     }
                   }
                 });
   }
 
+  /**
+   * Queries the census API for the broadband internet percentage of a specific state and county.
+   * First checks if the data is already present in the cache. If not, calls the cache's load method
+   * and retrieved the data from an API query.
+   *
+   * @param stateName the specified state
+   * @param countyName the specified county
+   * @return the CensusData holding the data from the API call
+   * @throws DatasourceException if the data could not be retrieved
+   */
   @Override
   public CensusData getCensusData(String stateName, String countyName) throws DatasourceException {
     String compositeKey =
@@ -66,10 +70,14 @@ public class CachedACSCensusSource implements CensusDatasource {
             + countyName.replaceAll("\\s", "").toLowerCase();
     CensusData result = this.cache.getUnchecked(compositeKey);
     return result;
-
-
   }
 
+  /**
+   * Getter method for the cache object, used solely for testing. If published, this code would like
+   * not incude this (as it would be too dangerous to expose the cache instance directly).
+   *
+   * @return the cache instance
+   */
   public LoadingCache<String, CensusData> getCache() {
     return this.cache;
   }

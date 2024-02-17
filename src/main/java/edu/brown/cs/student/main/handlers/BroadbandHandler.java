@@ -18,14 +18,30 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+/**
+ * The BroadbandHandler class is responsible for handling data from API requests sent to the Census
+ * API. It implements the Spark Route interface to handle incoming requests.
+ */
 public class BroadbandHandler implements Route {
 
   private CensusDatasource dataSource;
 
+  /**
+   * Constructs an instance of BroadbandHandler with the specified datasource.
+   *
+   * @param dataSource ACS datasource that sends API requests
+   */
   public BroadbandHandler(CensusDatasource dataSource) {
     this.dataSource = dataSource;
   }
 
+  /**
+   * Handles HTTP requests to the ACS API datasource
+   *
+   * @param request the HTTP request received by the server
+   * @param response the Json response sent by the server
+   * @return A Json map containing the requested data
+   */
   @Override
   public Object handle(Request request, Response response) {
     Moshi moshi = new Moshi.Builder().build();

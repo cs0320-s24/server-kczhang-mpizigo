@@ -1,19 +1,17 @@
 package edu.brown.cs.student.main.datasources;
 
 /**
- * The DataSource class represents a data source that can hold a specific type of data.
- * It provides methods to set and retrieve data, as well as check if data has been loaded.
+ * The DataSource class represents a data source that can hold a specific type of data. It provides
+ * methods to set and retrieve data, as well as check if data has been loaded.
  *
  * @param <T> The type of data that the DataSource can hold.
  */
 public class Datasource<T> {
 
-  private T data;            // The data stored in the DataSource
-  private boolean loaded;    // A flag indicating whether data has been loaded
+  private T data; // The data stored in the DataSource
+  private boolean loaded; // A flag indicating whether data has been loaded
 
-  /**
-   * Constructs a new DataSource object with no data loaded initially.
-   */
+  /** Constructs a new DataSource object with no data loaded initially. */
   public Datasource() {
     this.loaded = false;
   }
